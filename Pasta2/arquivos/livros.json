@@ -1,0 +1,23 @@
+[
+    {
+        "id": "68b2271293da0",
+        "titulo": "The Mask",
+        "autor": "Arthur C\u00e9sar",
+        "genero": "F",
+        "paginas": "182"
+    },
+    {
+        "id": "68b2272eeb0c1",
+        "titulo": "Berserk",
+        "autor": "Kentaro Miura",
+        "genero": "F",
+        "paginas": "360"
+    },
+    {
+        "id": "68b22eb806b84",
+        "titulo": "INVENCIVEL",
+        "autor": "Kimble",
+        "genero": "F",
+        "paginas": "201"
+    }
+]
