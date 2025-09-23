@@ -5,12 +5,47 @@ $filmes = buscarDados("filmes.json");
 $msgErro = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = isset($_POST['nome']) ? trim($_POST['nome']) : "";
-    $genero = isset($_POST['genero']) ? trim($_POST['genero']) : "";
-    $diretor = isset($_POST['diretor']) ? trim($_POST['diretor']) : "";
-    $ano = isset($_POST['ano']) ? trim($_POST['ano']) : "";
+    $nome = isset($_POST['nome']) ? trim($_POST['nome']) : NULL;
+    $genero = isset($_POST['genero']) ? trim($_POST['genero']) : NULL;
+    $diretor = isset($_POST['diretor']) ? trim($_POST['diretor']) : NULL;
+    $ano = isset($_POST['ano']) ? trim($_POST['ano']) : NULL;
 
-    if ($nome && $genero && $diretor && $ano) {
+    $erros = array();
+    if($nome == ''){
+        array_push($erros, "Informe o nome do filme!");
+    } else if(strlen($nome) <= 3){
+        array_push($erros, "Informe um nome com mais de 3 caracteres!");
+    }
+    if($genero == ''){
+        array_push($erros, "Informe o gênero!");
+    }
+    if($diretor == ''){
+        array_push($erros, "Informe o nome do Diretor!");
+    }
+    if($ano == ''){
+        array_push($erros, "Informe o ano em que o filme foi lançado!");
+    }
+    if(empty($erros)){
+        //se validar, salvar no arquivo:
+        $novo_filme = array(
+            "id" => uniqid(),
+            "nome" => $nome,
+            "genero" => $genero,
+            "diretor" => $diretor,
+            "ano" => $ano
+        );
+
+         array_push($filmes, $novo_filme);
+         salvarDados($filmes, "filmes.json");
+    
+         //força recarregamento para evitar reenvio
+         header("location: principal.php");
+    } else{
+        $msgErro = implode("<br>", $erros);
+    }
+    
+    //Abaixo está o metodo de verificação antigo
+    /*if ($nome && $genero && $diretor && $ano) {
         $filmes = buscarDados("filmes.json");
         $novo = [
             "id" => uniqid(), 
@@ -28,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $msgErro = "Preencha todos os campos!";
     }
+        */
 }
 ?>
 <!DOCTYPE html>
@@ -99,9 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <?php endif; ?>
 
    <form method="post" class="mb-4">
-       <input class="form-control bg-dark text-white" type="text" name="nome" placeholder="Nome do filme" class="form-control mb-2" required>
+       <input class="form-control bg-dark text-white" type="text" name="nome" placeholder="Nome do filme" class="form-control mb-2">
        <br>
-       <select class="form-control bg-dark text-white" name="genero" class="form-control mb-2" required>
+       <select class="form-control bg-dark text-white" name="genero" class="form-control mb-2">
             <option value="">--Selecione o gênero--</option>
             <option value="Drama">Drama</option>
             <option value="Ficção">Ficção</option>
@@ -109,9 +145,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="Outro">Outro</option>
        </select>
        <br>
-       <input class="form-control bg-dark text-white" type="text" name="diretor" placeholder="Diretor do filme" class="form-control mb-2" required>
+       <input class="form-control bg-dark text-white" type="text" name="diretor" placeholder="Diretor do filme" class="form-control mb-2">
        <br>
-       <input class="form-control bg-dark text-white" type="number" name="ano" placeholder="Ano de lançamento" class="form-control mb-2" required>
+       <input class="form-control bg-dark text-white" type="number" name="ano" placeholder="Ano de lançamento" class="form-control mb-2" >
        <br>
        <input class="form-control bg-dark text-white" type="submit" value="Cadastrar" class="btn btn-success">
    </form>
@@ -121,11 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <div class="table-container">
    <table class="table table-bordered table-dark">
     <tr>
-        <th>Nome</th>
-        <th>Gênero</th>
-        <th>Diretor</th>
-        <th>Ano de Lançamento</th>
-        <th>Excluir</th>
+        <th>Nome</th> <th>Gênero</th> <th>Diretor</th> <th>Ano de Lançamento</th><th>Excluir</th>
     </tr>
     <?php foreach($filmes as $f): ?>
     <tr>

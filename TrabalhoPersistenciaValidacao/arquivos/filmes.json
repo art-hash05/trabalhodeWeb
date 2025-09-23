@@ -1,1 +1,9 @@
-[]
+[
+    {
+        "id": "68d32128a4222",
+        "nome": "Teste1",
+        "genero": "Outro",
+        "diretor": "JorgeTeste",
+        "ano": "2023"
+    }
+]
