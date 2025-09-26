@@ -2,13 +2,18 @@
 include_once("persistir.php");
 
 $filmes = buscarDados("filmes.json");
+
 $msgErro = "";
+$nome = "";
+$genero = "";
+$diretor = "";
+$ano = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = isset($_POST['nome']) ? trim($_POST['nome']) : NULL;
-    $genero = isset($_POST['genero']) ? trim($_POST['genero']) : NULL;
-    $diretor = isset($_POST['diretor']) ? trim($_POST['diretor']) : NULL;
-    $ano = isset($_POST['ano']) ? trim($_POST['ano']) : NULL;
+    $nome = trim($_POST['nome']);
+    $genero = trim($_POST['genero']);
+    $diretor = trim($_POST['diretor']);
+    $ano = trim($_POST['ano']);
 
     $erros = array();
     if($nome == ''){
@@ -135,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <?php endif; ?>
 
    <form method="post" class="mb-4">
-       <input class="form-control bg-dark text-white" type="text" name="nome" placeholder="Nome do filme" class="form-control mb-2">
+       <input class="form-control bg-dark text-white" type="text" name="nome" placeholder="Nome do filme" class="form-control mb-2" value="<?=$nome?>">
        <br>
        <select class="form-control bg-dark text-white" name="genero" class="form-control mb-2">
             <option value="">--Selecione o gênero--</option>
@@ -145,9 +150,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="Outro">Outro</option>
        </select>
        <br>
-       <input class="form-control bg-dark text-white" type="text" name="diretor" placeholder="Diretor do filme" class="form-control mb-2">
+       <input class="form-control bg-dark text-white" type="text" name="diretor" placeholder="Diretor do filme" class="form-control mb-2" value="<?=$diretor?>">
        <br>
-       <input class="form-control bg-dark text-white" type="number" name="ano" placeholder="Ano de lançamento" class="form-control mb-2" >
+       <input class="form-control bg-dark text-white" type="number" name="ano" placeholder="Ano de lançamento" class="form-control mb-2" value="<?=$ano?>">
        <br>
        <input class="form-control bg-dark text-white" type="submit" value="Cadastrar" class="btn btn-success">
    </form>
